@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Home from './pages/Home';
+import Home from './pages/home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
@@ -94,6 +94,23 @@ const Logo = styled.div`
   }
 `;
 
+const PageContainer = styled.div`
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.8s ease forwards ${props => props.delay}s;
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
 function AppContent() {
   const [showLoading, setShowLoading] = useState(true);
   const location = useLocation();
@@ -130,20 +147,22 @@ function AppContent() {
           </Logo>
         </LoadingOverlay>
       )}
-      <Nav>
-        <NavContainer>
-          <StyledLink to="/">LippHub</StyledLink>
-          <NavLinks>
-            <StyledLink to="/about">About</StyledLink>
-            <StyledLink to="/contact">Contact</StyledLink>
-          </NavLinks>
-        </NavContainer>
-      </Nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <PageContainer delay={2.3}>
+        <Nav>
+          <NavContainer>
+            <StyledLink to="/">LippHub</StyledLink>
+            <NavLinks>
+              <StyledLink to="/about">About</StyledLink>
+              <StyledLink to="/contact">Contact</StyledLink>
+            </NavLinks>
+          </NavContainer>
+        </Nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </PageContainer>
     </>
   );
 }

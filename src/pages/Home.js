@@ -149,6 +149,7 @@ const CategoryButton = styled.button`
 
 const Home = () => {
   const [projects, setProjects] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   useEffect(() => {
     const fetchGithubStats = async () => {
@@ -168,6 +169,41 @@ const Home = () => {
             date: "2024",
             tech: "React"
           },
+          {
+            title: "C calculator",
+            image: "https://raw.githubusercontent.com/Lipp0s/Trabalho-Final-AED1/main/preview.png",
+            repo: "Lipp0s/C",
+            date: "2023",
+            tech: "C"
+          },
+          {
+            title: "C BMI ",
+            image: "https://raw.githubusercontent.com/Lipp0s/Trabalho-Pratico-1-AED1/main/preview.png",
+            repo: "Lipp0s/C",
+            date: "2023",
+            tech: "C"
+          },
+          {
+            title: "C analyzer",
+            image: "https://raw.githubusercontent.com/Lipp0s/Trabalho-Pratico-2-AED1/main/preview.png",
+            repo: "Lipp0s/C",
+            date: "2023",
+            tech: "C"
+          },
+          {
+            title: "C game",
+            image: "https://raw.githubusercontent.com/Lipp0s/Trabalho-Pratico-3-AED1/main/preview.png",
+            repo: "Lipp0s/C",
+            date: "2023",
+            tech: "C"
+          },
+          {
+            title: "C temperature",
+            image: "https://raw.githubusercontent.com/Lipp0s/Trabalho-Pratico-4-AED1/main/preview.png",
+            repo: "Lipp0s/C",
+            date: "2023",
+            tech: "C"
+          }
         ];
 
         const updatedProjects = await Promise.all(
@@ -193,6 +229,11 @@ const Home = () => {
     fetchGithubStats();
   }, []);
 
+  const filteredProjects = projects.filter(project => {
+    if (activeCategory === 'All') return true;
+    return project.tech === activeCategory;
+  });
+
   return (
     <HomeContainer>
       <HeroSection>
@@ -206,15 +247,35 @@ const Home = () => {
         <SectionHeader>
           <h2>Featured Projects</h2>
           <Categories>
-            <CategoryButton active>All</CategoryButton>
-            <CategoryButton>Java</CategoryButton>
-            <CategoryButton>React</CategoryButton>
-            <CategoryButton>C</CategoryButton>
+            <CategoryButton 
+              active={activeCategory === 'All'} 
+              onClick={() => setActiveCategory('All')}
+            >
+              All
+            </CategoryButton>
+            <CategoryButton 
+              active={activeCategory === 'Java'} 
+              onClick={() => setActiveCategory('Java')}
+            >
+              Java
+            </CategoryButton>
+            <CategoryButton 
+              active={activeCategory === 'React'} 
+              onClick={() => setActiveCategory('React')}
+            >
+              React
+            </CategoryButton>
+            <CategoryButton 
+              active={activeCategory === 'C'} 
+              onClick={() => setActiveCategory('C')}
+            >
+              C
+            </CategoryButton>
           </Categories>
         </SectionHeader>
 
         <ProjectsGrid>
-          {projects.map((project, index) => (
+          {filteredProjects.map((project, index) => (
             <ProjectCard key={index} onClick={() => window.open(project.link, '_blank')}>
               <ProjectImage src={project.image} alt={project.title} />
               <ProjectInfo>
